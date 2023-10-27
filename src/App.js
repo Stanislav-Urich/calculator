@@ -1,23 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import Button from './components/button';
+import Input from './components/input/Input';
+import calc from './calculator.js'
+import { useState } from 'react';
+
 
 function App() {
+
+  const [displayValue, setDisplayValue] = useState('');
+
+
+  const changeInputValue = (val) => {
+
+    setDisplayValue(prev => prev.toString() + val.toString())
+
+    if (val === '=') {
+      setDisplayValue(eval(displayValue).toString())
+    }
+    if (val === 'Ac') {
+      setDisplayValue('')
+    }
+
+
+
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Calculator </h1>
+      <Input value={displayValue} setDisplayValue={setDisplayValue} />
+      <div className='numberField'>
+        {calc.map((i, index) => <Button
+          changeInputValue={changeInputValue}
+          key={index}
+          num={i} />)}
+      </div>
+
     </div>
   );
 }
